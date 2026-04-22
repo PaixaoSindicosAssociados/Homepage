@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Entre em contato com Isabel Paixão da Paixão Síndicos Associados — e-mail, WhatsApp e redes sociais. Atendimento em Salvador/BA.">
+  <title>Contato | Paixão Síndicos Associados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .contact-hero-cta {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem;
+      max-width: 560px;
+      margin: 2.5rem auto 0;
+      text-align: center;
+    }
+
+    .contact-hero-cta p {
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+    }
+
+    /* Isabel profile mini card on contact page */
+    .isabel-card {
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      border-radius: var(--radius-xl);
+      padding: 3rem 2.5rem;
+      text-align: center;
+      color: var(--white);
+    }
+
+    .isabel-card img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 1.5rem;
+      border: 4px solid var(--gold);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .isabel-card h3 { color: var(--white); margin-bottom: 0.25rem; font-size: 1.4rem; }
+    .isabel-card .title { color: var(--gold); font-size: 0.88rem; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 1.25rem; }
+    .isabel-card p { color: rgba(255,255,255,0.65); font-size: 0.9rem; margin-bottom: 2rem; }
+
+    .isabel-card-actions { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .isabel-contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.875rem 1.25rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: var(--transition);
+      text-align: left;
+    }
+
+    .isabel-contact-link i { width: 20px; font-size: 1rem; flex-shrink: 0; }
+
+    .isabel-contact-link.whatsapp-link {
+      background: rgba(37,211,102,0.15);
+      color: #4ddb7f;
+      border: 1px solid rgba(37,211,102,0.3);
+    }
+    .isabel-contact-link.whatsapp-link:hover {
+      background: rgba(37,211,102,0.25);
+      color: #5fe88b;
+    }
+
+    .isabel-contact-link.email-link {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .isabel-contact-link.email-link:hover {
+      background: rgba(255,255,255,0.15);
+      color: var(--white);
+    }
+
+    .isabel-contact-link.phone-link {
+      background: rgba(200,150,12,0.12);
+      color: var(--gold-light);
+      border: 1px solid rgba(200,150,12,0.25);
+    }
+    .isabel-contact-link.phone-link:hover {
+      background: rgba(200,150,12,0.2);
+    }
+
+    /* Right column info */
+    .contact-info-block {
+      padding: 2rem 0;
+    }
+
+    .contact-info-block + .contact-info-block {
+      border-top: 1px solid var(--gray-200);
+    }
+
+    .contact-section-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .info-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--off-white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: var(--navy);
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+
+    .info-item:hover .info-icon {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: var(--gold);
+    }
+
+    .info-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 0.25rem;
+    }
+
+    .info-value {
+      font-size: 0.95rem;
+      color: var(--gray-900);
+      font-weight: 500;
+    }
+
+    .info-value a { color: var(--navy); transition: var(--transition); }
+    .info-value a:hover { color: var(--gold); }
+
+    @media (max-width: 900px) {
+      .contact-section-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar" role="navigation" aria-label="Menu principal">
+    <div class="container">
+      <a href="index.html" class="nav-logo" aria-label="Paixão Síndicos Associados - Início">
+        <div class="nav-logo-badge">P</div>
+        <div class="nav-logo-text">
+          <span class="nav-logo-name">Paixão Síndicos</span>
+          <span class="nav-logo-sub">Associados</span>
+        </div>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="servicos.html">Serviços</a></li>
+        <li><a href="contato.html">Contato</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="https://wa.me/5571992071319" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Você está em">
+        <a href="index.html">Início</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Contato</span>
+      </nav>
+      <h1>Fale com a Isabel</h1>
+      <p>Estamos prontos para ouvir você e apresentar a melhor solução para o seu condomínio.</p>
+      <div class="contact-hero-cta">
+        <p>A forma mais rápida de entrar em contato é pelo WhatsApp. Resposta em até 2 horas em dias úteis.</p>
+        <a href="https://wa.me/5571992071319" class="btn btn-primary" target="_blank" rel="noopener noreferrer" style="font-size: 1rem; padding: 0.9rem 2rem;">
+          <i class="fab fa-whatsapp"></i> Abrir WhatsApp agora
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTACT SECTION -->
+  <section class="section">
+    <div class="container">
+      <div class="contact-section-grid">
+        <!-- Isabel card -->
+        <div class="fade-up">
+          <div class="isabel-card">
+            <img src="images/avatar.png" alt="Isabel Paixão — Síndica Profissional">
+            <h3>Isabel Paixão</h3>
+            <p class="title">Síndica Profissional · PSA</p>
+            <p>Sócia proprietária da Paixão Síndicos Associados, atendendo condomínios em Salvador/BA com dedicação e profissionalismo.</p>
+            <div class="isabel-card-actions">
+              <a href="https://wa.me/5571992071319" class="isabel-contact-link whatsapp-link" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-whatsapp"></i>
+                <span>+55 71 99207-1319 (WhatsApp)</span>
+              </a>
+              <a href="mailto:isabel@paixaosindicosassociados.com.br" class="isabel-contact-link email-link">
+                <i class="fas fa-envelope"></i>
+                <span>isabel@paixaosindicosassociados.com.br</span>
+              </a>
+              <a href="tel:+5571992071319" class="isabel-contact-link phone-link">
+                <i class="fas fa-phone-alt"></i>
+                <span>+55 71 99207-1319</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info blocks -->
+        <div class="fade-up delay-2">
+          <div class="contact-info-block">
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Informações de contato</h3>
+            <div class="info-item">
+              <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
+              <div>
+                <div class="info-label">WhatsApp / Telefone</div>
+                <div class="info-value"><a href="https://wa.me/5571992071319" target="_blank" rel="noopener">+55 71 99207-1319</a></div>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-envelope"></i></div>
+              <div>
+                <div class="info-label">E-mail</div>
+                <div class="info-value"><a href="mailto:isabel@paixaosindicosassociados.com.br">isabel@paixaosindicosassociados.com.br</a></div>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div>
+                <div class="info-label">Área de atuação</div>
+                <div class="info-value">Salvador, Bahia — Brasil</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-clock"></i></div>
+              <div>
+                <div class="info-label">Horário de atendimento</div>
+                <div class="info-value">Seg – Sex: 8h às 18h<br><span style="font-size: 0.85rem; color: var(--gray-600);">Emergências: 24h</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-info-block" style="padding-top: 2rem;">
+            <h3 style="margin-bottom: 1.25rem; font-size: 1.1rem;">Redes Sociais</h3>
+            <p style="font-size: 0.9rem; margin-bottom: 1.5rem;">Siga a PSA nas redes sociais e fique por dentro das novidades sobre gestão condominial.</p>
+            <div class="social-links-grid" style="justify-content: flex-start;">
+              <a href="#" class="social-link instagram" target="_blank" rel="noopener" aria-label="Instagram">
+                <i class="fab fa-instagram"></i> Instagram
+              </a>
+              <a href="#" class="social-link facebook" target="_blank" rel="noopener" aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i> Facebook
+              </a>
+              <a href="https://wa.me/5571992071319" class="social-link whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+              </a>
+              <a href="#" class="social-link linkedin" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i> LinkedIn
+              </a>
+              <a href="#" class="social-link youtube" target="_blank" rel="noopener" aria-label="YouTube">
+                <i class="fab fa-youtube"></i> YouTube
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT CARDS -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="eyebrow">Formas de contato</span>
+        <h2>Como podemos ajudar?</h2>
+        <p>Escolha o canal mais conveniente para você. Estamos prontos para atender.</p>
+      </div>
+      <div class="contact-cards">
+        <div class="contact-card fade-up delay-1">
+          <div class="contact-card-icon"><i class="fab fa-whatsapp"></i></div>
+          <h3>WhatsApp</h3>
+          <p>Canal mais ágil para esclarecimento de dúvidas e primeiro contato.</p>
+          <br>
+          <a href="https://wa.me/5571992071319" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 0.5rem;">
+            Abrir conversa
+          </a>
+        </div>
+        <div class="contact-card fade-up delay-2">
+          <div class="contact-card-icon"><i class="fas fa-envelope"></i></div>
+          <h3>E-mail</h3>
+          <p>Para propostas formais, documentação e comunicações mais detalhadas.</p>
+          <br>
+          <a href="mailto:isabel@paixaosindicosassociados.com.br" class="btn btn-dark" style="width: 100%; justify-content: center; margin-top: 0.5rem; font-size: 0.8rem; padding: 0.875rem 1rem;">
+            Enviar e-mail
+          </a>
+        </div>
+        <div class="contact-card fade-up delay-3">
+          <div class="contact-card-icon"><i class="fas fa-phone-alt"></i></div>
+          <h3>Telefone</h3>
+          <p>Para assuntos urgentes e atendimento de emergências condominiais.</p>
+          <br>
+          <a href="tel:+5571992071319" class="btn btn-dark" style="width: 100%; justify-content: center; margin-top: 0.5rem; background: var(--navy);">
+            +55 71 99207-1319
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band">
+    <div class="container">
+      <div class="fade-up">
+        <h2>Seu condomínio merece gestão profissional</h2>
+        <p>Fale com a Isabel e descubra como a PSA pode transformar a administração do seu condomínio.</p>
+        <a href="https://wa.me/5571992071319" class="btn btn-dark" target="_blank" rel="noopener noreferrer" style="font-size: 1rem; padding: 1rem 2.25rem;">
+          <i class="fab fa-whatsapp"></i> Iniciar conversa agora
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo">
+            <div class="nav-logo-badge">P</div>
+            <div class="nav-logo-text">
+              <span class="nav-logo-name">Paixão Síndicos</span>
+              <span class="nav-logo-sub">Associados</span>
+            </div>
+          </a>
+          <p>Gestão condominial profissional com transparência, ética e dedicação total ao bem-estar do seu condomínio em Salvador/BA.</p>
+          <div class="footer-social">
+            <a href="#" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://wa.me/5571992071319" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Navegação</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="servicos.html">Serviços</a></li>
+            <li><a href="contato.html">Contato</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Serviços</h4>
+          <ul class="footer-links">
+            <li><a href="servicos.html">Gestão Condominial</a></li>
+            <li><a href="servicos.html">Gestão Financeira</a></li>
+            <li><a href="servicos.html">Manutenção Predial</a></li>
+            <li><a href="servicos.html">Assembleias</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contato</h4>
+          <div class="footer-contact-item">
+            <i class="fas fa-envelope"></i>
+            <a href="mailto:isabel@paixaosindicosassociados.com.br">isabel@paixaosindicosassociados.com.br</a>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fas fa-phone-alt"></i>
+            <a href="tel:+5571992071319">+55 71 99207-1319</a>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Salvador, Bahia — Brasil</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Paixão Síndicos Associados. Todos os direitos reservados.</p>
+        <p>Feito com <i class="fas fa-heart" style="color: var(--gold);"></i> em Salvador/BA</p>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/5571992071319" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Conversar pelo WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+    <span>Fale pelo WhatsApp</span>
+  </a>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,45 +1,263 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
-    <link href="css/style.css" rel="stylesheet">
-    <title>Isabel Paixão - Cartão de Visitas</title>
-  </head>
-  <body>
-    <section>
-      <div class="vcard-body">
-        <div class="vcard-profile-img">
-          <img src="images/avatar.png" class="profile-img" alt="avatar">
-        </div>
-        <div class="vcard-profile-description">
-          <h1 class="profile-title">Olá, eu sou <span class="profile-title-color">Isabel Paixão.</span></h1>
-          <h2 class="profile-subtitle">Síndica Profissional</h2>
-          <hr />
-          <div class="vcard-profile-description-text">
-            <p>
-              Sócia Proprietária da Paixão Síndicos Associados,
-              atuando na cidade de Salvador/BA.
-            </p>
-          </div>
-          <div class="vcard-profile-description-contact">
-            <p>email: isabel@paixaosindicosassociados.com.br / tel+whatsapp: +55 71 99207 1319</p>
-          </div>
-        </div>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Paixão Síndicos Associados — Gestão condominial profissional em Salvador/BA. Administração transparente, financeira e operacional do seu condomínio.">
+  <title>Paixão Síndicos Associados | Gestão Condominial Profissional</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
-        <div class="vcard-image-container" style="text-align: center; margin: 15px 0;">
-            <img src="images/pilares_psa.png" alt="Pilares PSA" style="max-width: 100%; height: auto;">
+  <!-- NAVIGATION -->
+  <nav class="navbar" role="navigation" aria-label="Menu principal">
+    <div class="container">
+      <a href="index.html" class="nav-logo" aria-label="Paixão Síndicos Associados - Início">
+        <div class="nav-logo-badge">P</div>
+        <div class="nav-logo-text">
+          <span class="nav-logo-name">Paixão Síndicos</span>
+          <span class="nav-logo-sub">Associados</span>
         </div>
-        <div class="vcard-footer">
-          <a href="#" class="footer-icon"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="footer-icon"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="footer-icon"><i class="fab fa-twitter"></i></a>
-          <a href="#" class="footer-icon"><i class="fab fa-linkedin-in"></i></a>
-          <a href="#" class="footer-icon"><i class="fab fa-youtube"></i></a>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="servicos.html">Serviços</a></li>
+        <li><a href="contato.html">Contato</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="https://wa.me/5571992071319" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="container">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Síndica Profissional · Salvador/BA</p>
+        <h1>Gestão Condominial com <em>Excelência e Transparência</em></h1>
+        <p class="hero-lead">
+          A Paixão Síndicos Associados cuida do seu condomínio com dedicação total —
+          gestão financeira transparente, manutenção eficiente e moradores tranquilos.
+        </p>
+        <div class="hero-actions">
+          <a href="https://wa.me/5571992071319" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-whatsapp"></i> Fale com a Isabel
+          </a>
+          <a href="servicos.html" class="btn btn-outline">
+            Nossos Serviços <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <span class="hero-stat-number">100%</span>
+            <span class="hero-stat-label">Dedicação ao seu condomínio</span>
+          </div>
+          <div>
+            <span class="hero-stat-number">24h</span>
+            <span class="hero-stat-label">Atendimento de emergência</span>
+          </div>
+          <div>
+            <span class="hero-stat-number">PSA</span>
+            <span class="hero-stat-label">Síndica certificada</span>
+          </div>
         </div>
       </div>
-    </section>
-  </body>
+    </div>
+  </section>
+
+  <!-- ABOUT TEASER -->
+  <section class="section" id="sobre">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-img-wrapper fade-up">
+          <img src="images/avatar.png" alt="Isabel Paixão — Síndica Profissional" class="about-img">
+          <div class="about-img-badge">
+            <strong><i class="fas fa-star" style="color: var(--gold); font-size: 1.2rem;"></i></strong>
+            <span>Síndica Certificada</span>
+          </div>
+        </div>
+        <div class="about-content fade-up delay-2">
+          <span class="eyebrow">Quem somos</span>
+          <h2>Isabel Paixão — Sua Síndica Profissional</h2>
+          <p>
+            Sócia proprietária da Paixão Síndicos Associados, Isabel Paixão é síndica profissional
+            com foco em transformar a gestão condominial em Salvador/BA. Seu trabalho é pautado
+            na transparência, no respeito aos condôminos e na eficiência operacional.
+          </p>
+          <p>
+            Acreditamos que um condomínio bem administrado valoriza o patrimônio de todos e
+            garante qualidade de vida para os moradores. Por isso, oferecemos uma gestão
+            completa, ética e comprometida com resultados reais.
+          </p>
+          <ul class="about-checklist">
+            <li><i class="fas fa-check-circle"></i> Gestão financeira transparente e prestação de contas mensal</li>
+            <li><i class="fas fa-check-circle"></i> Supervisão de manutenções preventivas e corretivas</li>
+            <li><i class="fas fa-check-circle"></i> Atendimento personalizado para síndicos e condôminos</li>
+            <li><i class="fas fa-check-circle"></i> Condução profissional de assembleias</li>
+          </ul>
+          <a href="sobre.html" class="btn btn-dark">
+            Conheça nossa história <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILLARS -->
+  <section class="pillars-section" id="pilares">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="eyebrow">Nossa Fundação</span>
+        <h2 style="color: white;">Os 4 Pilares da PSA</h2>
+        <p>Os valores que orientam cada decisão e cada ação da nossa equipe no dia a dia.</p>
+      </div>
+      <div class="pillars-img-wrap fade-up delay-2">
+        <img src="images/pilares_psa.png" alt="Os 4 Pilares da Paixão Síndicos Associados">
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section section-alt" id="servicos">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="eyebrow">O que fazemos</span>
+        <h2>Soluções Completas para seu Condomínio</h2>
+        <p>Da gestão financeira à manutenção predial, cuidamos de cada detalhe para garantir o bom funcionamento do seu condomínio.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card fade-up delay-1">
+          <div class="service-icon"><i class="fas fa-building"></i></div>
+          <h3>Gestão Condominial</h3>
+          <p>Administração completa do condomínio, supervisionando funcionários, controle de acesso e áreas comuns.</p>
+        </div>
+        <div class="service-card fade-up delay-2">
+          <div class="service-icon"><i class="fas fa-chart-pie"></i></div>
+          <h3>Gestão Financeira</h3>
+          <p>Controle rigoroso de receitas e despesas, elaboração de orçamentos e prestação de contas mensal transparente.</p>
+        </div>
+        <div class="service-card fade-up delay-3">
+          <div class="service-icon"><i class="fas fa-tools"></i></div>
+          <h3>Manutenção Predial</h3>
+          <p>Supervisão de manutenções preventivas e corretivas, garantindo segurança e conservação das instalações.</p>
+        </div>
+        <div class="service-card fade-up delay-4">
+          <div class="service-icon"><i class="fas fa-users"></i></div>
+          <h3>Gestão de Pessoas</h3>
+          <p>Gerenciamento de colaboradores e prestadores de serviços, incluindo contratações e cumprimento da CLT.</p>
+        </div>
+        <div class="service-card fade-up delay-5">
+          <div class="service-icon"><i class="fas fa-clipboard-list"></i></div>
+          <h3>Assembleias</h3>
+          <p>Convocação, organização e condução profissional de assembleias ordinárias e extraordinárias com elaboração de atas.</p>
+        </div>
+        <div class="service-card fade-up delay-6">
+          <div class="service-icon"><i class="fas fa-balance-scale"></i></div>
+          <h3>Assessoria Legal</h3>
+          <p>Orientação sobre legislação condominial, normas internas e suporte em ações de inadimplência.</p>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 3rem;" class="fade-up">
+        <a href="servicos.html" class="btn btn-dark">Ver todos os serviços <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <section class="cta-band">
+    <div class="container">
+      <div class="fade-up">
+        <h2>Pronto para transformar seu condomínio?</h2>
+        <p>Entre em contato e descubra como a PSA pode trazer mais tranquilidade e eficiência para o seu condomínio.</p>
+        <a href="https://wa.me/5571992071319" class="btn btn-dark" target="_blank" rel="noopener noreferrer" style="font-size: 1rem; padding: 1rem 2.25rem;">
+          <i class="fab fa-whatsapp"></i> Solicitar uma conversa
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo">
+            <div class="nav-logo-badge">P</div>
+            <div class="nav-logo-text">
+              <span class="nav-logo-name">Paixão Síndicos</span>
+              <span class="nav-logo-sub">Associados</span>
+            </div>
+          </a>
+          <p>Gestão condominial profissional com transparência, ética e dedicação total ao bem-estar do seu condomínio em Salvador/BA.</p>
+          <div class="footer-social">
+            <a href="#" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://wa.me/5571992071319" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Navegação</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="servicos.html">Serviços</a></li>
+            <li><a href="contato.html">Contato</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Serviços</h4>
+          <ul class="footer-links">
+            <li><a href="servicos.html">Gestão Condominial</a></li>
+            <li><a href="servicos.html">Gestão Financeira</a></li>
+            <li><a href="servicos.html">Manutenção Predial</a></li>
+            <li><a href="servicos.html">Assembleias</a></li>
+            <li><a href="servicos.html">Assessoria Legal</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contato</h4>
+          <div class="footer-contact-item">
+            <i class="fas fa-envelope"></i>
+            <a href="mailto:isabel@paixaosindicosassociados.com.br">isabel@paixaosindicosassociados.com.br</a>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fas fa-phone-alt"></i>
+            <a href="tel:+5571992071319">+55 71 99207-1319</a>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Salvador, Bahia — Brasil</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Paixão Síndicos Associados. Todos os direitos reservados.</p>
+        <p>Feito com <i class="fas fa-heart" style="color: var(--gold);"></i> em Salvador/BA</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/5571992071319" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Conversar pelo WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+    <span>Fale pelo WhatsApp</span>
+  </a>
+
+  <script src="js/main.js"></script>
+</body>
 </html>
