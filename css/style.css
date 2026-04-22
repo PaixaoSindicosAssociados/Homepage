@@ -169,18 +169,10 @@ p:last-child { margin-bottom: 0; }
   z-index: 2;
 }
 
-.nav-logo-badge {
+.nav-logo-img {
   width: 42px;
   height: 42px;
-  background: linear-gradient(135deg, var(--gold), var(--gold-light));
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: var(--navy);
+  object-fit: contain;
   flex-shrink: 0;
 }
 
