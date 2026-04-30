@@ -145,7 +145,7 @@
   .a4-deco-bl { bottom: 6mm; left: 6mm; width: 14mm; height: 14mm; border-bottom: 2.2px solid var(--accent); border-left: 2.2px solid var(--accent); border-bottom-left-radius: 3mm; }
   .a4-deco-br { bottom: 6mm; right: 6mm; width: 24mm; height: 24mm; border-bottom: 2.2px solid var(--primary); border-right: 2.2px solid var(--primary); border-bottom-right-radius: 3mm; }
 
-  /* CABEÇALHO ALTERADO (LIMPO E CORRIGIDO) */
+  /* CABEÇALHO ALTERADO E CORRIGIDO */
   .com-header { 
     display: flex; flex-direction: column; 
     padding-bottom: 4mm; border-bottom: 1.5px solid var(--primary); 
@@ -156,7 +156,7 @@
     align-self: center; 
     background: var(--primary); 
     color: white; 
-    font-size: 24pt; /* Fonte do INFORMATIVO garantida grande aqui */
+    font-size: 24pt; 
     font-weight: 900; 
     letter-spacing: 0.18em; 
     padding: 6px 35px; 
@@ -230,56 +230,80 @@
     .preview-frame { height: 80vw; min-height: 300px; }
   }
 
-  /* MEDIA PRINT AJUSTADO COM ZONA DE SEGURANÇA E SEM CARACTERES INVISÍVEIS */
+  /* =======================================================
+     A SOLUÇÃO DEFINITIVA DE IMPRESSÃO
+     Em vez de esconder os elementos, usamos 'display: none'
+     na interface para sobrar APENAS o preview na tela.
+     Isso elimina completamente bugs de navegadores renderizando a UI.
+     ======================================================= */
   @media print {
     @page { 
       size: A4; 
       margin: 0; 
     }
-    html, body { 
-      background: white !important; 
-      margin: 0; 
-      padding: 0; 
-      width: 210mm; 
-      height: 297mm; 
-      overflow: hidden;
+    
+    /* Remove tudo que não for o preview do documento impresso */
+    .app-header, 
+    .form-panel, 
+    .preview-header, 
+    .toast { 
+      display: none !important; 
     }
-    body * { visibility: hidden; }
-    .a4, .a4 *, .a4-wrapper { visibility: visible; }
-    .a4-wrapper { 
-      height: 297mm !important; 
-      display: block !important; 
-      width: 210mm !important; 
-      overflow: hidden; 
+    
+    /* Reseta os fundos e margens globais */
+    html, body {
+      background: white !important;
+      margin: 0 !important;
+      padding: 0 !important;
     }
-    .a4 { 
-      position: absolute !important; 
-      left: 0 !important; 
-      top: 0 !important; 
-      width: 210mm !important; 
-      height: 287mm !important; /* Altura reduzida (10mm livres) para a URL do rodapé do navegador */
-      max-width: 210mm !important; 
-      max-height: 287mm !important; 
-      transform: none !important; 
-      box-shadow: none !important; 
-      margin: 0 !important; 
-      page-break-after: avoid; 
+    
+    /* Garante que os containers pai deixem a folha fluir naturalmente */
+    .app-shell, .app-main, .preview-panel {
+      display: block !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      height: auto !important;
+      min-height: auto !important;
+    }
+    
+    /* Tira a formatação cinza de pré-visualização */
+    .preview-frame {
+      background: none !important;
+      padding: 0 !important;
+      overflow: visible !important;
+      height: auto !important;
+      min-height: 0 !important;
+      display: block !important;
+    }
+    
+    /* Configura o papel A4 físico + Zona de respiro da URL */
+    .a4-wrapper {
+      display: block !important;
+    }
+    .a4 {
+      position: relative !important;
+      left: 0 !important;
+      top: 0 !important;
+      transform: none !important; /* Ignora o zoom dinâmico do javascript */
+      box-shadow: none !important;
+      margin: 0 !important;
+      width: 210mm !important;
+      height: 287mm !important; /* Mantém 10mm livres para a URL não quebrar página */
+      max-width: 210mm !important;
+      max-height: 287mm !important;
+      page-break-after: avoid;
       page-break-inside: avoid;
-      overflow: hidden;
     }
+    
     .a4-inner { 
-      padding: 16mm 14mm 20mm; /* Padding inferior de 20mm garante espaço pra logo no PDF */
+      padding: 16mm 14mm 20mm; /* Aumenta a margem de baixo internamente */
       height: 287mm !important; 
     }
+    
+    /* Força fundos azuis e qualidade máxima */
     .com-rule { background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .com-tag, .com-rule-icon, .com-title-icon { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
   }
-
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text); color: white; padding: 12px 20px; border-radius: 10px; font-size: 0.85rem; box-shadow: 0 8px 30px rgba(0,0,0,0.2); transition: transform 0.3s; z-index: 1000; opacity: 0; display: flex; align-items: center; gap: 8px; }
-  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-  .toast.success { background: var(--success); }
-  .toast.error { background: var(--danger); }
-  .toast svg { width: 18px; height: 18px; }
 </style>
 </head>
 <body>
@@ -898,6 +922,7 @@ function render() {
 
   if (state.tipo === 'geral') {
     titleText = state.tituloGeral.trim() || 'Comunicado aos Moradores';
+    // Apply font formatting to greeting
     if (greeting) {
       greeting.style.fontSize = state.fontSize + 'pt';
       greeting.style.color = state.fontColor;
@@ -906,6 +931,7 @@ function render() {
       dynamicHTML += `<div class="com-text" style="font-size:${state.fontSize}pt;color:${state.fontColor};">${nl2html(state.corpoGeral.trim())}</div>`;
     }
   } else {
+    // Reset greeting style for tema mode
     if (greeting) { greeting.style.fontSize = ''; greeting.style.color = ''; }
     const tema = TEMAS[state.tema];
     if (tema) {
