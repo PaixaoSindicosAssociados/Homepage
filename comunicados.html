@@ -145,27 +145,32 @@
   .a4-deco-bl { bottom: 6mm; left: 6mm; width: 14mm; height: 14mm; border-bottom: 2.2px solid var(--accent); border-left: 2.2px solid var(--accent); border-bottom-left-radius: 3mm; }
   .a4-deco-br { bottom: 6mm; right: 6mm; width: 24mm; height: 24mm; border-bottom: 2.2px solid var(--primary); border-right: 2.2px solid var(--primary); border-bottom-right-radius: 3mm; }
 
-  /* HEADER ALTERADO */
+  /* CABEÇALHO ALTERADO (LIMPO E CORRIGIDO) */
   .com-header { 
     display: flex; flex-direction: column; 
     padding-bottom: 4mm; border-bottom: 1.5px solid var(--primary); 
     margin-bottom: 4mm; flex-shrink: 0;
   }
+  
   .com-tag { 
     align-self: center; 
     background: var(--primary); 
     color: white; 
-    font-size: 18pt; /* Aumentado de 13pt para 18pt */
-    font-weight: 800; /* Peso extra para mais destaque */
-    letter-spacing: 0.15em; /* Espaçamento entre letras levemente maior */
-    padding: 4px 20px; /* Aumentamos o respiro interno da caixa azul */
+    font-size: 24pt; /* Fonte do INFORMATIVO garantida grande aqui */
+    font-weight: 900; 
+    letter-spacing: 0.18em; 
+    padding: 6px 35px; 
     border-radius: 4px; 
-    margin-bottom: 4mm; 
+    margin-bottom: 5mm; 
+    display: inline-block;
+    text-transform: uppercase;
   }
+  
   .com-cond { 
     align-self: center; font-size: 24pt; font-weight: 900; 
     color: var(--primary); line-height: 1.1; text-align: center; 
   }
+  
   .com-date { 
     align-self: flex-end; font-size: 8pt; color: var(--text-muted); 
     font-style: italic; margin-bottom: 2mm; 
@@ -173,7 +178,7 @@
 
   /* LOGO MOVIDA PARA O RODAPÉ */
   .com-logo { flex-shrink: 0; }
-  .com-logo img { max-height: 14mm; width: auto; display: block; object-fit: contain; }
+  .com-logo img { width: auto; max-height: 14mm; display: block; object-fit: contain; }
 
   .com-title-wrap { text-align: center; margin: 6mm 0 5mm; flex-shrink: 0; }
   .com-title-icon { display: inline-flex; align-items: center; justify-content: center; width: 16mm; height: 16mm; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); border-radius: 50%; margin-bottom: 3mm; box-shadow: 0 3px 12px rgba(30,58,138,0.25); }
@@ -198,6 +203,7 @@
   .com-rule-content { flex: 1; min-width: 0; }
   .com-rule-title { font-size: 13pt; font-weight: 800; color: var(--primary); margin-bottom: 2mm; line-height: 1.2; }
   .com-rule-desc { font-size: 10pt; color: var(--text); line-height: 1.4; }
+  
   .com-custom { margin-top: 3mm; padding: 3mm 4mm; background: var(--accent-light); border-radius: 1.5mm; border-left: 2.5px solid var(--accent); font-size: 9pt; line-height: 1.5; color: var(--text); }
   .com-custom-label { font-size: 7pt; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1mm; }
 
@@ -224,49 +230,49 @@
     .preview-frame { height: 80vw; min-height: 300px; }
   }
 
+  /* MEDIA PRINT AJUSTADO COM ZONA DE SEGURANÇA E SEM CARACTERES INVISÍVEIS */
   @media print {
-    @page { 
+    @page { 
       size: A4; 
-      margin: 0; /* Mantemos 0 para as bordas decorativas ficarem nos cantos */
+      margin: 0; 
     }
-    html, body { 
-      background: white !important; 
-      margin: 0; 
-      padding: 0; 
-      width: 210mm; 
-      height: 297mm; 
-      overflow: hidden;
-    }
-    body * { visibility: hidden; }
-    .a4, .a4 *, .a4-wrapper { visibility: visible; }
-    .a4-wrapper { 
-      height: 297mm !important; 
-      display: block !important; 
-      width: 210mm !important; 
-      overflow: hidden; 
-    }
-    .a4 { 
-      position: absolute !important; 
-      left: 0 !important; 
-      top: 0 !important; 
-      width: 210mm !important; 
-      /* Reduzido de 297mm para 287mm (10mm de folga para a URL do navegador) */
-      height: 287mm !important; 
-      max-width: 210mm !important; 
-      max-height: 287mm !important; 
-      transform: none !important; 
-      box-shadow: none !important; 
-      margin: 0 !important; 
-      page-break-after: avoid; 
-      page-break-inside: avoid;
-      overflow: hidden;
-    }
-    .a4-inner { 
-      padding: 16mm 14mm 20mm; /* Aumentamos o padding inferior interno para 20mm */
+    html, body { 
+      background: white !important; 
+      margin: 0; 
+      padding: 0; 
+      width: 210mm; 
+      height: 297mm; 
+      overflow: hidden;
+    }
+    body * { visibility: hidden; }
+    .a4, .a4 *, .a4-wrapper { visibility: visible; }
+    .a4-wrapper { 
+      height: 297mm !important; 
+      display: block !important; 
+      width: 210mm !important; 
+      overflow: hidden; 
+    }
+    .a4 { 
+      position: absolute !important; 
+      left: 0 !important; 
+      top: 0 !important; 
+      width: 210mm !important; 
+      height: 287mm !important; /* Altura reduzida (10mm livres) para a URL do rodapé do navegador */
+      max-width: 210mm !important; 
+      max-height: 287mm !important; 
+      transform: none !important; 
+      box-shadow: none !important; 
+      margin: 0 !important; 
+      page-break-after: avoid; 
+      page-break-inside: avoid;
+      overflow: hidden;
+    }
+    .a4-inner { 
+      padding: 16mm 14mm 20mm; /* Padding inferior de 20mm garante espaço pra logo no PDF */
       height: 287mm !important; 
     }
-    .com-rule { background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .com-tag, .com-rule-icon, .com-title-icon { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    .com-rule { background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .com-tag, .com-rule-icon, .com-title-icon { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
   }
 
   .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text); color: white; padding: 12px 20px; border-radius: 10px; font-size: 0.85rem; box-shadow: 0 8px 30px rgba(0,0,0,0.2); transition: transform 0.3s; z-index: 1000; opacity: 0; display: flex; align-items: center; gap: 8px; }
@@ -290,6 +296,7 @@
 
   <main class="app-main">
     <section class="form-panel">
+      <!-- Card 1 -->
       <div class="card">
         <div class="card-title"><span class="card-num">1</span> Condomínio</div>
         <div class="field">
@@ -303,6 +310,7 @@
         </div>
       </div>
 
+      <!-- Card 2 -->
       <div class="card">
         <div class="card-title"><span class="card-num">2</span> Tipo de Comunicado</div>
         <div class="toggle">
@@ -353,6 +361,7 @@
         </div>
       </div>
 
+      <!-- Card 3 -->
       <div class="card">
         <div class="card-title"><span class="card-num">3</span> Mensagem Adicional <span style="font-weight:400;color:var(--text-muted);font-size:0.78rem;">(opcional)</span></div>
         <div class="field">
@@ -367,6 +376,7 @@
       </div>
     </section>
 
+    <!-- PREVIEW -->
     <section class="preview-panel">
       <div class="preview-panel-inner">
         <div class="preview-header">
@@ -888,7 +898,6 @@ function render() {
 
   if (state.tipo === 'geral') {
     titleText = state.tituloGeral.trim() || 'Comunicado aos Moradores';
-    // Apply font formatting to greeting
     if (greeting) {
       greeting.style.fontSize = state.fontSize + 'pt';
       greeting.style.color = state.fontColor;
@@ -897,7 +906,6 @@ function render() {
       dynamicHTML += `<div class="com-text" style="font-size:${state.fontSize}pt;color:${state.fontColor};">${nl2html(state.corpoGeral.trim())}</div>`;
     }
   } else {
-    // Reset greeting style for tema mode
     if (greeting) { greeting.style.fontSize = ''; greeting.style.color = ''; }
     const tema = TEMAS[state.tema];
     if (tema) {
