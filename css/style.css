@@ -642,18 +642,19 @@ p:last-child { margin-bottom: 0; }
   margin-top: 1.5rem;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--gray-200);
+  text-align: left;
 }
 
 .profile-meta-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.75rem;
   padding: 0.6rem 0;
   border-bottom: 1px solid var(--gray-100);
   font-size: 0.88rem;
 }
 .profile-meta-item:last-child { border-bottom: none; }
-.profile-meta-item i { color: var(--gold); width: 16px; }
+.profile-meta-item i { color: var(--gold); width: 16px; margin-top: 4px; }
 .profile-meta-item strong { color: var(--navy); }
 .profile-meta-item span { color: var(--gray-600); }
 
