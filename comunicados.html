@@ -338,11 +338,11 @@
       <div class="card">
         <div class="card-title"><span class="card-num">2</span> Tipo de Comunicado</div>
         <div class="toggle">
-          <button type="button" data-tipo="tema" class="active">Por Tema Específico</button>
-          <button type="button" data-tipo="geral">Comunicado Geral</button>
+          <button type="button" data-tipo="tema">Por Tema Específico</button>
+          <button type="button" data-tipo="geral" class="active">Comunicado Geral</button>
         </div>
 
-        <div id="form-geral" style="display:none;">
+        <div id="form-geral">
           <div class="field">
             <label for="input-titulo">Título do comunicado</label>
             <input type="text" id="input-titulo" class="input" maxlength="80" placeholder="Ex: Aviso Importante aos Moradores">
@@ -372,7 +372,7 @@
           </div>
         </div>
 
-        <div id="form-tema">
+        <div id="form-tema" style="display:none;">
           <div class="field">
             <label for="select-tema">Tema do comunicado</label>
             <select id="select-tema" class="select"></select>
@@ -754,7 +754,7 @@ const TEMAS = {
 const state = {
   condominios: [...DEFAULT_CONDOMINIOS],
   condSelecionado: '',
-  tipo: 'tema',
+  tipo: 'geral',
   tituloGeral: '',
   corpoGeral: '',
   fontSize: '10',
