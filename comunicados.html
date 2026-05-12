@@ -137,7 +137,7 @@
     box-shadow: 0 10px 40px rgba(0,0,0,0.18); position: relative; overflow: hidden;
     transform-origin: top left;
   }
-  .a4-inner { height: 100%; padding: 11mm 14mm; display: flex; flex-direction: column; position: relative; z-index: 2; }
+  .a4-inner { height: 100%; padding: 11mm 14mm 7mm; display: flex; flex-direction: column; position: relative; z-index: 2; }
 
   .a4-deco { position: absolute; pointer-events: none; z-index: 1; }
   .a4-deco-tl { top: 6mm; left: 6mm; width: 24mm; height: 24mm; border-top: 2.2px solid var(--primary); border-left: 2.2px solid var(--primary); border-top-left-radius: 3mm; }
@@ -191,6 +191,24 @@
 
   .com-greeting { font-size: 10pt; margin-bottom: 3mm; color: var(--text); }
   .com-text { font-size: 9.5pt; line-height: 1.55; color: var(--text); white-space: pre-wrap; margin-bottom: 3mm; }
+
+  .com-image-float {
+    float: right;
+    width: 60mm;
+    height: 60mm;
+    margin: 0 0 3mm 4mm;
+    object-fit: cover;
+    border: 1.2px solid var(--primary);
+    border-radius: 1.5mm;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .img-toggle-label { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 500; color: var(--text); cursor: pointer; }
+  .img-toggle-label input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--primary); cursor: pointer; }
+  #img-upload-wrap { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+  #input-img { padding: 8px 10px; font-size: 0.85rem; cursor: pointer; }
 
   .com-rules { display: grid; gap: 3mm; }
   .com-rules.cols-1 { grid-template-columns: 1fr; }
@@ -295,9 +313,9 @@
       page-break-inside: avoid;
     }
     
-    .a4-inner { 
-      padding: 11mm 14mm 15mm; /* Aumenta a margem de baixo internamente */
-      height: 287mm !important; 
+    .a4-inner {
+      padding: 11mm 14mm 11mm; /* Margem inferior reduzida para aproximar rodapé das bordas decorativas */
+      height: 287mm !important;
     }
     
     /* Força fundos azuis e qualidade máxima */
@@ -370,6 +388,20 @@
               </div>
             </div>
           </div>
+          <div class="field">
+            <label class="img-toggle-label">
+              <input type="checkbox" id="chk-incluir-imagem"> Incluir imagem
+            </label>
+            <div id="img-upload-wrap" style="display:none;">
+              <input type="file" id="input-img" accept="image/*" class="input">
+              <div class="upload-row">
+                <button type="button" class="btn-link" id="btn-remove-img" style="display:none;">
+                  <i data-lucide="x"></i> Remover imagem
+                </button>
+              </div>
+              <div class="field-hint">A imagem aparecerá no canto direito do comunicado, com o texto contornando-a.</div>
+            </div>
+          </div>
         </div>
 
         <div id="form-tema" style="display:none;">
@@ -439,7 +471,6 @@
                 </div>
 
                 <div class="com-footer">
-                  <div class="com-footer-name">PAIXÃO SÍNDICOS ASSOCIADOS</div>
                   <div class="com-footer-content">
                     <div class="com-footer-grid">
                       <div class="com-footer-item">
@@ -761,7 +792,9 @@ const state = {
   fontColor: '#1e293b',
   tema: 'silencio',
   selecionadas: [],
-  textoExtra: ''
+  textoExtra: '',
+  incluirImagem: false,
+  imagemDataUrl: ''
 };
 
 /* =========================================================
@@ -927,6 +960,9 @@ function render() {
       greeting.style.fontSize = state.fontSize + 'pt';
       greeting.style.color = state.fontColor;
     }
+    if (state.incluirImagem && state.imagemDataUrl) {
+      dynamicHTML += `<img class="com-image-float" src="${state.imagemDataUrl}" alt="Imagem do comunicado">`;
+    }
     if (state.corpoGeral.trim()) {
       dynamicHTML += `<div class="com-text" style="font-size:${state.fontSize}pt;color:${state.fontColor};">${nl2html(state.corpoGeral.trim())}</div>`;
     }
@@ -1012,6 +1048,47 @@ function bindEvents() {
   $('#input-fontsize').addEventListener('change', e => { state.fontSize = e.target.value; render(); });
   $('#input-color').addEventListener('input', e => { state.fontColor = e.target.value; render(); });
 
+  $('#chk-incluir-imagem').addEventListener('change', e => {
+    state.incluirImagem = e.target.checked;
+    $('#img-upload-wrap').style.display = state.incluirImagem ? '' : 'none';
+    if (!state.incluirImagem) {
+      state.imagemDataUrl = '';
+      $('#input-img').value = '';
+      $('#btn-remove-img').style.display = 'none';
+    }
+    render();
+  });
+
+  $('#input-img').addEventListener('change', e => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      showToast('Selecione um arquivo de imagem válido', 'error');
+      e.target.value = '';
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      showToast('Imagem muito grande (máx. 5 MB)', 'error');
+      e.target.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = ev => {
+      state.imagemDataUrl = ev.target.result;
+      $('#btn-remove-img').style.display = '';
+      render();
+    };
+    reader.onerror = () => showToast('Erro ao ler a imagem', 'error');
+    reader.readAsDataURL(file);
+  });
+
+  $('#btn-remove-img').addEventListener('click', () => {
+    state.imagemDataUrl = '';
+    $('#input-img').value = '';
+    $('#btn-remove-img').style.display = 'none';
+    render();
+  });
+
   $('#select-tema').addEventListener('change', e => {
     state.tema = e.target.value;
     state.selecionadas = [];
@@ -1029,9 +1106,14 @@ function bindEvents() {
     if (!confirm('Limpar o formulário e começar de novo?')) return;
     state.tituloGeral = ''; state.corpoGeral = ''; state.selecionadas = []; state.textoExtra = '';
     state.fontSize = '10'; state.fontColor = '#1e293b';
+    state.incluirImagem = false; state.imagemDataUrl = '';
     $('#input-titulo').value = ''; $('#input-corpo').value = ''; $('#input-extra').value = '';
     $('#input-fontsize').value = '10'; $('#input-color').value = '#1e293b';
     $('#corpo-count').textContent = '0'; $('#extra-count').textContent = '0';
+    $('#chk-incluir-imagem').checked = false;
+    $('#input-img').value = '';
+    $('#img-upload-wrap').style.display = 'none';
+    $('#btn-remove-img').style.display = 'none';
     renderRulesList(); render();
     showToast('Formulário limpo');
   });
