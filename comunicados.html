@@ -1039,10 +1039,24 @@ function bindEvents() {
     });
   });
 
+  // Desabilita "Muito grande (20pt)" quando o corpo passa de 1500 caracteres
+  const LIMITE_FONTE_GRANDE = 1500;
+  function atualizarOpcaoFonteGrande() {
+    const sel = $('#input-fontsize');
+    const opt = sel.querySelector('option[value="20"]');
+    const bloquear = state.corpoGeral.length > LIMITE_FONTE_GRANDE;
+    opt.disabled = bloquear;
+    if (bloquear && sel.value === '20') {
+      sel.value = '16';
+      state.fontSize = '16';
+    }
+  }
+
   $('#input-titulo').addEventListener('input', e => { state.tituloGeral = e.target.value; render(); });
   $('#input-corpo').addEventListener('input', e => {
     state.corpoGeral = e.target.value;
     $('#corpo-count').textContent = e.target.value.length;
+    atualizarOpcaoFonteGrande();
     render();
   });
   $('#input-fontsize').addEventListener('change', e => { state.fontSize = e.target.value; render(); });
@@ -1110,6 +1124,7 @@ function bindEvents() {
     $('#input-titulo').value = ''; $('#input-corpo').value = ''; $('#input-extra').value = '';
     $('#input-fontsize').value = '10'; $('#input-color').value = '#1e293b';
     $('#corpo-count').textContent = '0'; $('#extra-count').textContent = '0';
+    atualizarOpcaoFonteGrande();
     $('#chk-incluir-imagem').checked = false;
     $('#input-img').value = '';
     $('#img-upload-wrap').style.display = 'none';
