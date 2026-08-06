@@ -132,12 +132,14 @@
 
   .a4-wrapper { display: flex; justify-content: flex-start; align-items: flex-start; }
 
+  /* Altura 287mm (e não 297mm) para que a pré-visualização seja idêntica
+     à folha realmente impressa — ver bloco @media print. */
   .a4 {
-    background: white; width: 210mm; height: 297mm; flex-shrink: 0;
+    background: white; width: 210mm; height: 287mm; flex-shrink: 0;
     box-shadow: 0 10px 40px rgba(0,0,0,0.18); position: relative; overflow: hidden;
     transform-origin: top left;
   }
-  .a4-inner { height: 100%; padding: 11mm 14mm 7mm; display: flex; flex-direction: column; position: relative; z-index: 2; }
+  .a4-inner { height: 100%; padding: 11mm 14mm 11mm; display: flex; flex-direction: column; position: relative; z-index: 2; }
 
   .a4-deco { position: absolute; pointer-events: none; z-index: 1; }
   .a4-deco-tl { top: 6mm; left: 6mm; width: 24mm; height: 24mm; border-top: 2.2px solid var(--primary); border-left: 2.2px solid var(--primary); border-top-left-radius: 3mm; }
@@ -187,16 +189,19 @@
   .com-subtitle { font-size: 9.5pt; color: var(--text-muted); font-style: italic; max-width: 90%; margin: 0 auto; line-height: 1.4; }
 
   .com-body { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
-  .com-body-content { transform-origin: top left; width: 100%; }
+  /* --fit: fator de redução aplicado pelo autoFit(). É propagado por herança e
+     multiplica fontes/espaçamentos — NÃO usar transform aqui: o Chrome do Android
+     perde o texto de camadas transformadas ao gerar o PDF. */
+  .com-body-content { width: 100%; --fit: 1; }
 
-  .com-greeting { font-size: 10pt; margin-bottom: 3mm; color: var(--text); }
-  .com-text { font-size: 9.5pt; line-height: 1.55; color: var(--text); white-space: pre-wrap; margin-bottom: 3mm; }
+  .com-greeting { font-size: calc(10pt * var(--fit)); margin-bottom: calc(3mm * var(--fit)); color: var(--text); }
+  .com-text { font-size: calc(9.5pt * var(--fit)); line-height: 1.55; color: var(--text); white-space: pre-wrap; margin-bottom: calc(3mm * var(--fit)); }
 
   .com-image-float {
     float: right;
-    width: 60mm;
-    height: 60mm;
-    margin: 0 0 3mm 4mm;
+    width: calc(60mm * var(--fit));
+    height: calc(60mm * var(--fit));
+    margin: 0 0 calc(3mm * var(--fit)) calc(4mm * var(--fit));
     object-fit: cover;
     border: 1.2px solid var(--primary);
     border-radius: 1.5mm;
@@ -210,20 +215,20 @@
   #img-upload-wrap { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
   #input-img { padding: 8px 10px; font-size: 0.85rem; cursor: pointer; }
 
-  .com-rules { display: grid; gap: 3mm; }
+  .com-rules { display: grid; gap: calc(3mm * var(--fit)); }
   .com-rules.cols-1 { grid-template-columns: 1fr; }
   .com-rules.cols-2 { grid-template-columns: 1fr 1fr; }
   .com-rule-span-2 { grid-column: span 2; }
 
-  .com-rule { display: flex; gap: 3mm; padding: 2.5mm 3mm; background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%); border-left: 2.5px solid var(--primary); border-radius: 1.5mm; page-break-inside: avoid; break-inside: avoid; }
-  .com-rule-icon { flex-shrink: 0; width: 12mm; height: 11mm; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-  .com-rule-icon svg { width: 6.5mm; height: 6.5mm; stroke-width: 2; }
+  .com-rule { display: flex; gap: calc(3mm * var(--fit)); padding: calc(2.5mm * var(--fit)) calc(3mm * var(--fit)); background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%); border-left: 2.5px solid var(--primary); border-radius: 1.5mm; page-break-inside: avoid; break-inside: avoid; }
+  .com-rule-icon { flex-shrink: 0; width: calc(12mm * var(--fit)); height: calc(11mm * var(--fit)); background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .com-rule-icon svg { width: calc(6.5mm * var(--fit)); height: calc(6.5mm * var(--fit)); stroke-width: 2; }
   .com-rule-content { flex: 1; min-width: 0; }
-  .com-rule-title { font-size: 13pt; font-weight: 800; color: var(--primary); margin-bottom: 2mm; line-height: 1.2; }
-  .com-rule-desc { font-size: 10pt; color: var(--text); line-height: 1.4; }
-  
-  .com-custom { margin-top: 3mm; padding: 3mm 4mm; background: var(--accent-light); border-radius: 1.5mm; border-left: 2.5px solid var(--accent); font-size: 9pt; line-height: 1.5; color: var(--text); }
-  .com-custom-label { font-size: 7pt; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1mm; }
+  .com-rule-title { font-size: calc(13pt * var(--fit)); font-weight: 800; color: var(--primary); margin-bottom: calc(2mm * var(--fit)); line-height: 1.2; }
+  .com-rule-desc { font-size: calc(10pt * var(--fit)); color: var(--text); line-height: 1.4; }
+
+  .com-custom { margin-top: calc(3mm * var(--fit)); padding: calc(3mm * var(--fit)) calc(4mm * var(--fit)); background: var(--accent-light); border-radius: 1.5mm; border-left: 2.5px solid var(--accent); font-size: calc(9pt * var(--fit)); line-height: 1.5; color: var(--text); }
+  .com-custom-label { font-size: calc(7pt * var(--fit)); font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1mm; }
 
   .com-signature { text-align: center; margin: 5mm 0 3mm; flex-shrink: 0; }
   .com-signature-line { width: 55mm; height: 0.4px; background: #94a3b8; margin: 0 auto 1mm; }
@@ -318,6 +323,13 @@
       height: 287mm !important;
     }
     
+    /* O corpo é reduzido pela variável --fit (layout real, via autoFit()).
+       Nenhum transform aqui: o Chrome do Android descarta o texto de camadas
+       transformadas ao exportar o PDF. */
+    .com-body-content {
+      transform: none !important;
+    }
+
     /* Força fundos azuis e qualidade máxima */
     .com-rule { background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .com-tag, .com-rule-icon, .com-title-icon { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
@@ -516,13 +528,12 @@
    DATA
    ========================================================= */
 const DEFAULT_CONDOMINIOS = [
-  'Condomínio Bertolucci','Condomínio Canela Residencial','Condomínio Del Sol',
-  'Cond. Fernando Novis','Condomínio Ícone','Condomínio Jardim Oceania',
-  'Condomínio M. Rio São Pedro','Condomínio M. San Vincent','Condomínio Maison Graça',
-  'Ed. Carolina Cavalcante','Ed. Daniel','Ed. Eng. Renato Firpo','Ed. Marechal Andrea',
-  'Ed. Palazzo Oceânico','Ed. Patricia','Ed. Primum','Ed. Residencial Salvador',
-  'Ed. Solar da Colina','Ed. Solaris','Ed. Spazio Cidade','Ed. Spazio Pituba',
-  'Residencial São Lázaro','Ed. Menina Bonita','Ed. Vog Alto Do Imbuí'
+  'Residencial São Lázaro','Ed. Residencial Salvador','Ed. Spazio Cidade','Ed. Patricia',
+  'Condomínio Del Sol','Ed. Palazzo Oceânico','Ed. Vog Alto Do Imbuí','Ed. Menina Bonita',
+  'Cond. Fernando Novis','Condomínio Bertolucci','Condomínio Jardim Oceania',
+  'Condomínio Canela Residencial','Ed. Daniel','Condomínio Ícone','Condomínio M. Rio São Pedro',
+  'Ed. Marechal Andrea','Ed. Solaris','Condomínio M. San Vincent','Condomínio Maison Graça',
+  'Ed. Primum','Ed. Spazio Pituba','Ed. Carolina Cavalcante','Ed. Eng. Renato Firpo'
 ];
 
 const TEMAS = {
@@ -866,22 +877,42 @@ function fitPreview() {
 }
 
 /* =========================================================
-   AUTO-FIT — scale body content within A4 page
+   AUTO-FIT — encolhe o conteúdo do corpo para caber na folha A4.
+
+   IMPORTANTE: a redução é feita pela variável CSS --fit (fontes e
+   espaçamentos), e NÃO por transform: scale(). O Chrome do Android
+   descarta o texto de camadas transformadas ao exportar o PDF — o
+   preview de impressão aparece correto, mas o arquivo salvo saía com
+   o corpo do texto vazio.
    ========================================================= */
+const FIT_MIN = 0.55;
+
+function setFit(content, fit) {
+  content.style.setProperty('--fit', fit.toFixed(3));
+}
+
 function autoFit() {
   const body = $('#com-body');
   const content = $('#com-body-content');
   if (!body || !content) return;
-  content.style.transform = '';
-  content.style.width = '';
+
+  setFit(content, 1);
+
   const available = body.clientHeight;
-  const needed = content.scrollHeight;
-  if (needed > available + 1) {
-    const scale = Math.max(0.55, (available - 2) / needed);
-    content.style.transform = `scale(${scale})`;
-    content.style.transformOrigin = 'top left';
-    content.style.width = `${100 / scale}%`;
+  if (!available) return;
+  if (content.scrollHeight <= available) return; // já cabe em tamanho normal
+
+  // Busca binária pelo maior fator que ainda cabe. Não dá para calcular
+  // direto: ao diminuir a fonte o texto reflui e ocupa menos linhas, então
+  // a altura não é proporcional ao fator.
+  let lo = FIT_MIN, hi = 1, melhor = FIT_MIN;
+  for (let i = 0; i < 8; i++) {
+    const mid = (lo + hi) / 2;
+    setFit(content, mid);
+    if (content.scrollHeight <= available) { melhor = mid; lo = mid; }
+    else { hi = mid; }
   }
+  setFit(content, melhor);
 }
 
 /* =========================================================
@@ -958,14 +989,14 @@ function render() {
     titleText = state.tituloGeral.trim() || 'Comunicado aos Moradores';
     // Apply font formatting to greeting
     if (greeting) {
-      greeting.style.fontSize = state.fontSize + 'pt';
+      greeting.style.fontSize = `calc(${state.fontSize}pt * var(--fit))`;
       greeting.style.color = state.fontColor;
     }
     if (state.incluirImagem && state.imagemDataUrl) {
       dynamicHTML += `<img class="com-image-float" src="${state.imagemDataUrl}" alt="Imagem do comunicado">`;
     }
     if (state.corpoGeral.trim()) {
-      dynamicHTML += `<div class="com-text" style="font-size:${state.fontSize}pt;color:${state.fontColor};">${nl2html(state.corpoGeral.trim())}</div>`;
+      dynamicHTML += `<div class="com-text" style="font-size:calc(${state.fontSize}pt * var(--fit));color:${state.fontColor};">${nl2html(state.corpoGeral.trim())}</div>`;
     }
   } else {
     // Reset greeting style for tema mode
@@ -1040,8 +1071,8 @@ function bindEvents() {
     });
   });
 
-  // Desabilita "Muito grande (20pt)" quando o corpo passa de 1200 caracteres
-  const LIMITE_FONTE_GRANDE = 1200;
+  // Desabilita "Muito grande (20pt)" quando o corpo passa de 1500 caracteres
+  const LIMITE_FONTE_GRANDE = 1500;
   function atualizarOpcaoFonteGrande() {
     const sel = $('#input-fontsize');
     const opt = sel.querySelector('option[value="20"]');
