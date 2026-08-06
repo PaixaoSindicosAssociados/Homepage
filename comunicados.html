@@ -871,9 +871,13 @@ function fitPreview() {
   wrapper.style.width = Math.ceil(a4W * scale) + 'px';
 
   const pct = Math.round(scale * 100);
-  $('#scale-info').innerHTML = pct < 100
+  const base = pct < 100
     ? `A4 · Ajustado para <strong>${pct}%</strong>`
     : `A4 · <strong>100%</strong>`;
+  // autoFit() roda antes de fitPreview() em render(), então a flag já está atual
+  $('#scale-info').innerHTML = conteudoCortado
+    ? `${base} · <strong style="color:var(--danger)">texto longo demais: encurte o corpo</strong>`
+    : base;
 }
 
 /* =========================================================
@@ -885,7 +889,12 @@ function fitPreview() {
    preview de impressão aparece correto, mas o arquivo salvo saía com
    o corpo do texto vazio.
    ========================================================= */
-const FIT_MIN = 0.55;
+// Piso da redução. Baixo de propósito: texto pequeno é melhor do que texto
+// cortado — acima do limite o .com-body (overflow:hidden) suprime o excedente.
+const FIT_MIN = 0.30;
+
+// true quando nem no piso o conteúdo coube (avisa o usuário no preview).
+let conteudoCortado = false;
 
 function setFit(content, fit) {
   content.style.setProperty('--fit', fit.toFixed(3));
@@ -897,6 +906,7 @@ function autoFit() {
   if (!body || !content) return;
 
   setFit(content, 1);
+  conteudoCortado = false;
 
   const available = body.clientHeight;
   if (!available) return;
@@ -906,13 +916,14 @@ function autoFit() {
   // direto: ao diminuir a fonte o texto reflui e ocupa menos linhas, então
   // a altura não é proporcional ao fator.
   let lo = FIT_MIN, hi = 1, melhor = FIT_MIN;
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 10; i++) {
     const mid = (lo + hi) / 2;
     setFit(content, mid);
     if (content.scrollHeight <= available) { melhor = mid; lo = mid; }
     else { hi = mid; }
   }
   setFit(content, melhor);
+  conteudoCortado = content.scrollHeight > available;
 }
 
 /* =========================================================
@@ -1183,6 +1194,14 @@ function init() {
   render();
   retryIcons();
   setTimeout(fitPreview, 150);
+
+  // As fontes do Google chegam depois do primeiro render e mudam a altura do
+  // texto. Sem este reajuste, a medida feita com a fonte de fallback fica
+  // errada e sobra conteúdo fora da folha (cortado pelo overflow:hidden).
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => { autoFit(); fitPreview(); });
+  }
+  window.addEventListener('load', () => { autoFit(); fitPreview(); });
 }
 
 if (document.readyState === 'loading') {
