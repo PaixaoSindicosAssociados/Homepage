@@ -202,7 +202,13 @@
   
   .com-cond { 
     align-self: center; font-size: 24pt; font-weight: 900; 
-    color: var(--primary); line-height: 1.1; text-align: center; 
+    color: var(--primary); line-height: 1.1; text-align: center;
+    display: flex; align-items: center; justify-content: center; gap: 3mm;
+  }
+  /* Logomarca do condomínio: altura = 1 linha do nome, para não mudar a altura do cabeçalho */
+  .com-cond-logo {
+    height: 1.1em; width: auto; max-width: 30mm; object-fit: contain; flex-shrink: 0;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
   }
   
   .com-date { 
@@ -244,8 +250,8 @@
 
   .img-toggle-label { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 500; color: var(--text); cursor: pointer; }
   .img-toggle-label input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--primary); cursor: pointer; }
-  #img-upload-wrap { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
-  #input-img { padding: 8px 10px; font-size: 0.85rem; cursor: pointer; }
+  #img-upload-wrap, #logo-upload-wrap { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+  #input-img, #input-logo { padding: 8px 10px; font-size: 0.85rem; cursor: pointer; }
 
   .com-rules { display: grid; gap: calc(3mm * var(--fit)); }
   .com-rules.cols-1 { grid-template-columns: 1fr; }
@@ -398,6 +404,20 @@
             <i data-lucide="plus"></i> Adicionar manualmente
           </button>
         </div>
+        <div class="field" style="margin-top:12px;">
+          <label class="img-toggle-label">
+            <input type="checkbox" id="chk-incluir-logo"> Incluir logomarca do condomínio
+          </label>
+          <div id="logo-upload-wrap" style="display:none;">
+            <input type="file" id="input-logo" accept="image/*" class="input">
+            <div class="upload-row">
+              <button type="button" class="btn-link" id="btn-remove-logo" style="display:none;">
+                <i data-lucide="x"></i> Remover logomarca
+              </button>
+            </div>
+            <div class="field-hint">A logo aparece pequena, ao lado do nome do condomínio. Prefira PNG com fundo transparente.</div>
+          </div>
+        </div>
       </div>
 
       <!-- Card 2 -->
@@ -499,7 +519,10 @@
                 <div class="com-header">
                   <div class="com-date" id="cm-date">—</div>
                   <div class="com-tag">INFORMATIVO</div>
-                  <div class="com-cond" id="cm-cond">Selecione um condomínio</div>
+                  <div class="com-cond">
+                    <img class="com-cond-logo" id="cm-cond-logo" alt="" style="display:none;">
+                    <span id="cm-cond">Selecione um condomínio</span>
+                  </div>
                 </div>
 
                 <div class="com-title-wrap">
@@ -844,7 +867,9 @@ const state = {
   selecionadas: [],
   textoExtra: '',
   incluirImagem: false,
-  imagemDataUrl: ''
+  imagemDataUrl: '',
+  incluirLogo: false,
+  logoDataUrl: ''
 };
 
 /* =========================================================
@@ -1026,6 +1051,15 @@ function renderRulesList() {
    ========================================================= */
 function render() {
   $('#cm-cond').textContent = state.condSelecionado || 'Selecione um condomínio';
+  const condLogo = $('#cm-cond-logo');
+  if (state.incluirLogo && state.logoDataUrl) {
+    if (condLogo.src !== state.logoDataUrl) condLogo.src = state.logoDataUrl;
+    condLogo.alt = 'Logomarca do condomínio';
+    condLogo.style.display = '';
+  } else {
+    condLogo.style.display = 'none';
+    condLogo.removeAttribute('src');
+  }
   $('#cm-date').textContent = dataPorExtenso();
 
   const greeting = $('#cm-greeting');
@@ -1154,27 +1188,59 @@ function bindEvents() {
     render();
   });
 
-  $('#input-img').addEventListener('change', e => {
-    const file = e.target.files && e.target.files[0];
+  // Valida o arquivo escolhido e devolve a imagem como data URL
+  function lerArquivoImagem(input, maxMB, onOk) {
+    const file = input.files && input.files[0];
     if (!file) return;
     if (!file.type.startsWith('image/')) {
       showToast('Selecione um arquivo de imagem válido', 'error');
-      e.target.value = '';
+      input.value = '';
       return;
     }
-    if (file.size > 5 * 1024 * 1024) {
-      showToast('Imagem muito grande (máx. 5 MB)', 'error');
-      e.target.value = '';
+    if (file.size > maxMB * 1024 * 1024) {
+      showToast(`Imagem muito grande (máx. ${maxMB} MB)`, 'error');
+      input.value = '';
       return;
     }
     const reader = new FileReader();
-    reader.onload = ev => {
-      state.imagemDataUrl = ev.target.result;
-      $('#btn-remove-img').style.display = '';
-      render();
-    };
+    reader.onload = ev => onOk(ev.target.result);
     reader.onerror = () => showToast('Erro ao ler a imagem', 'error');
     reader.readAsDataURL(file);
+  }
+
+  $('#input-img').addEventListener('change', e => {
+    lerArquivoImagem(e.target, 5, url => {
+      state.imagemDataUrl = url;
+      $('#btn-remove-img').style.display = '';
+      render();
+    });
+  });
+
+  // Logomarca do condomínio (cabeçalho)
+  $('#chk-incluir-logo').addEventListener('change', e => {
+    state.incluirLogo = e.target.checked;
+    $('#logo-upload-wrap').style.display = state.incluirLogo ? '' : 'none';
+    if (!state.incluirLogo) {
+      state.logoDataUrl = '';
+      $('#input-logo').value = '';
+      $('#btn-remove-logo').style.display = 'none';
+    }
+    render();
+  });
+
+  $('#input-logo').addEventListener('change', e => {
+    lerArquivoImagem(e.target, 2, url => {
+      state.logoDataUrl = url;
+      $('#btn-remove-logo').style.display = '';
+      render();
+    });
+  });
+
+  $('#btn-remove-logo').addEventListener('click', () => {
+    state.logoDataUrl = '';
+    $('#input-logo').value = '';
+    $('#btn-remove-logo').style.display = 'none';
+    render();
   });
 
   $('#btn-remove-img').addEventListener('click', () => {
@@ -1210,6 +1276,11 @@ function bindEvents() {
     $('#input-img').value = '';
     $('#img-upload-wrap').style.display = 'none';
     $('#btn-remove-img').style.display = 'none';
+    state.incluirLogo = false; state.logoDataUrl = '';
+    $('#chk-incluir-logo').checked = false;
+    $('#input-logo').value = '';
+    $('#logo-upload-wrap').style.display = 'none';
+    $('#btn-remove-logo').style.display = 'none';
     renderRulesList(); render();
     showToast('Formulário limpo');
   });
