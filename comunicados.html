@@ -203,13 +203,19 @@
   .com-cond { 
     align-self: center; font-size: 24pt; font-weight: 900; 
     color: var(--primary); line-height: 1.1; text-align: center;
-    display: flex; align-items: center; justify-content: center; gap: 3mm;
   }
-  /* Logomarca do condomínio: altura = 1 linha do nome, para não mudar a altura do cabeçalho */
+
+  /* Logomarca do condomínio: ocupa a área livre à esquerda de "INFORMATIVO" e do nome.
+     Posição absoluta para NÃO alterar a altura do cabeçalho (a linha separadora fica
+     no mesmo lugar). Tamanho exato calculado em ajustarLogoCabecalho(). */
+  .com-header { position: relative; --logo-reserva: 34mm; }
   .com-cond-logo {
-    height: 1.1em; width: auto; max-width: 30mm; object-fit: contain; flex-shrink: 0;
+    position: absolute; left: 1mm; top: 1mm;
+    object-fit: contain; object-position: left center;
     -webkit-print-color-adjust: exact; print-color-adjust: exact;
   }
+  /* Com logo, o nome não invade a área mínima reservada a ela (dos dois lados, para seguir centralizado) */
+  .com-header.tem-logo .com-cond { max-width: calc(100% - 2 * var(--logo-reserva)); }
   
   .com-date { 
     align-self: flex-end; font-size: 8pt; color: var(--text-muted); 
@@ -415,7 +421,7 @@
                 <i data-lucide="x"></i> Remover logomarca
               </button>
             </div>
-            <div class="field-hint">A logo aparece pequena, ao lado do nome do condomínio. Prefira PNG com fundo transparente.</div>
+            <div class="field-hint">A logo ocupa o espaço livre do cabeçalho, à esquerda de "INFORMATIVO" e do nome do condomínio. Prefira PNG com fundo transparente.</div>
           </div>
         </div>
       </div>
@@ -516,13 +522,11 @@
               <div class="a4-deco a4-deco-br"></div>
               <div class="a4-inner" id="a4-inner">
                 
-                <div class="com-header">
+                <div class="com-header" id="cm-header">
+                  <img class="com-cond-logo" id="cm-cond-logo" alt="" style="display:none;">
                   <div class="com-date" id="cm-date">—</div>
-                  <div class="com-tag">INFORMATIVO</div>
-                  <div class="com-cond">
-                    <img class="com-cond-logo" id="cm-cond-logo" alt="" style="display:none;">
-                    <span id="cm-cond">Selecione um condomínio</span>
-                  </div>
+                  <div class="com-tag" id="cm-tag">INFORMATIVO</div>
+                  <div class="com-cond" id="cm-cond">Selecione um condomínio</div>
                 </div>
 
                 <div class="com-title-wrap">
@@ -963,7 +967,60 @@ function setFit(content, fit) {
   content.style.setProperty('--fit', fit.toFixed(3));
 }
 
+/* =========================================================
+   LOGO NO CABEÇALHO — encaixa a logomarca do condomínio na área livre
+   à esquerda de "INFORMATIVO" e do nome, sem mudar a altura do cabeçalho.
+   Usa medidas de layout (offset*), que não são afetadas pelo zoom do preview.
+   ========================================================= */
+const MM = 96 / 25.4;               // px por mm
+const LOGO_MARGEM = 1 * MM;         // margem superior, inferior e esquerda
+const LOGO_MARGEM_DIR = 4 * MM;     // distância até os textos
+
+function ajustarLogoCabecalho() {
+  const header = $('#cm-header'), logo = $('#cm-cond-logo');
+  const tag = $('#cm-tag'), cond = $('#cm-cond');
+  if (!header || !logo) return;
+
+  // Estado sem logo: tudo como no original
+  header.classList.remove('tem-logo');
+  cond.style.fontSize = '';
+  cond.style.paddingTop = cond.style.paddingBottom = '';
+  logo.style.display = 'none';
+  if (!(state.incluirLogo && state.logoDataUrl)) return;
+
+  // Altura exata (sem arredondar), descontando o zoom aplicado ao preview
+  const a4 = $('#a4');
+  const escala = (a4.getBoundingClientRect().width / a4.offsetWidth) || 1;
+  const alturaReal = el => el.getBoundingClientRect().height / escala;
+
+  // Altura do nome sem logo — com logo ele nunca pode ficar mais alto que isso
+  const alturaOriginal = alturaReal(cond);
+  header.classList.add('tem-logo');
+  let pt = 24;
+  while (alturaReal(cond) > alturaOriginal + 0.5 && pt > 12) {
+    pt -= 0.5;
+    cond.style.fontSize = pt + 'pt';
+  }
+  // Se a fonte diminuiu, completa a altura original (texto centralizado na vertical)
+  // para a linha separadora não subir
+  const sobra = alturaOriginal - alturaReal(cond);
+  if (sobra > 0) {
+    cond.style.paddingTop = (sobra / 2) + 'px';
+    cond.style.paddingBottom = (sobra / 2) + 'px';
+  }
+
+  // Área livre: da borda esquerda do cabeçalho até o texto mais à esquerda
+  const textoEsq = Math.min(tag.offsetLeft, cond.offsetLeft);
+  const largura = textoEsq - LOGO_MARGEM - LOGO_MARGEM_DIR;
+  const altura = header.offsetHeight - 2 * LOGO_MARGEM - 1.5; // 1.5px = linha separadora
+  if (largura <= 0 || altura <= 0) return;
+  logo.style.width = largura + 'px';
+  logo.style.height = altura + 'px';
+  logo.style.display = '';
+}
+
 function autoFit() {
+  ajustarLogoCabecalho();
   const body = $('#com-body');
   const content = $('#com-body-content');
   if (!body || !content) return;
@@ -1055,9 +1112,7 @@ function render() {
   if (state.incluirLogo && state.logoDataUrl) {
     if (condLogo.src !== state.logoDataUrl) condLogo.src = state.logoDataUrl;
     condLogo.alt = 'Logomarca do condomínio';
-    condLogo.style.display = '';
   } else {
-    condLogo.style.display = 'none';
     condLogo.removeAttribute('src');
   }
   $('#cm-date').textContent = dataPorExtenso();
